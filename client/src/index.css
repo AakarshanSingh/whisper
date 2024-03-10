@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1d1f2b;
+}
+
+/* Define the scrollbar track */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #303346;
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1d1f2b; /* Message color */
+}
+
+/* Handle when it's dragging */
+::-webkit-scrollbar-thumb:active {
+  background: #303346; /* Primary color */
+}
