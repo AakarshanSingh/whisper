@@ -39,7 +39,7 @@ Go to the project directory
 Install dependencies for server
 
 ```bash
-  cd backend && npm install
+  cd server && npm install
 ```
 
 Start the server
@@ -48,10 +48,10 @@ Start the server
   npm start 
 ```
 
-Install dependencies for frontend
+Install dependencies for client side
 
 ```bash
-  cd frontend && npm install
+  cd client && npm install
 ```
 
 Start the frontend
@@ -61,11 +61,22 @@ Start the frontend
 ```
 ## Run Locally with Docker
 
+### Starting containers
 ```
-docker compose up --build
+./setup
 ```
+
+### Rebuilding images and restart
+```
+./setup build
+```
+### Stopping containers
+```
+./setup stop
+```
+
 
 ## Additional Instructions
 - Consider excluding mongoexpress from the Docker Compose configuration if a web interface for your database isn't necessary.
 - If an external MongoDB link has been incorporated into the .env file, you may remove mongodb from the Docker Compose setup.
-- Ensure that the target path for `/api` in `frontend/vite.config.js` is adjusted appropriately if Docker isn't utilized, with your project's deployment specifications.
+- Ensure that the target path for `/api` in `client/vite.config.js` is adjusted appropriately if Docker isn't utilized, with your project's deployment specifications.
