@@ -61,6 +61,11 @@ Start the frontend
 ```
 ## Run Locally with Docker
 
+### Executable permission
+```
+chmod +x setup.sh
+```
+
 ### Starting containers
 ```
 ./setup
