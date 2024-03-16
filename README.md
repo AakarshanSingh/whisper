@@ -61,21 +61,21 @@ Start the frontend
 ```
 ## Run Locally with Docker
 
-### Executable permission
+Executable permission
 ```
 chmod +x setup.sh
 ```
 
-### Starting containers
+Starting containers
 ```
 ./setup
 ```
 
-### Rebuilding images and restart
+Rebuilding images and restart
 ```
 ./setup build
 ```
-### Stopping containers
+Stopping containers
 ```
 ./setup stop
 ```
