@@ -63,21 +63,21 @@ Start the frontend
 
 Executable permission
 ```
-chmod +x setup.sh
+  chmod +x setup.sh
 ```
 
 Starting containers
 ```
-./setup
+  ./setup
 ```
 
 Rebuilding images and restart
 ```
-./setup build
+  ./setup build
 ```
 Stopping containers
 ```
-./setup stop
+  ./setup stop
 ```
 
 
