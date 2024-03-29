@@ -10,7 +10,17 @@ const useGetMessages = () => {
     const getMessages = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/message/${selectedConversation._id}`);
+        const token = JSON.parse(localStorage.getItem('whisper')).token;
+        const res = await fetch(
+          `/api/message/${selectedConversation._id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
         if (data.error) {
           throw new Error(data.error);

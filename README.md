@@ -82,6 +82,6 @@ Stopping containers
 
 
 ## Additional Instructions
-- Consider excluding mongoexpress from the Docker Compose configuration if a web interface for your database isn't necessary.
-- If an external MongoDB link has been incorporated into the .env file, you may remove mongodb from the Docker Compose setup.
-- Ensure that the target path for `/api` in `client/vite.config.js` is adjusted appropriately if Docker isn't utilized, with your project's deployment specifications.
+- If you don't require a web interface for your database, consider excluding mongoexpress from the Docker Compose configuration.
+- If you've incorporated an external MongoDB link into the `.env` file, you may remove the mongodb service from the Docker Compose setup.
+- Verify that the URLs specified in `server/global.js` and `client/global.js` are operational and accessible.

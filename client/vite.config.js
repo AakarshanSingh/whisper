@@ -1,17 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { CLIENT_URL, SERVER_URL } from './global';
 
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
       '/api': {
-        target: 'http://server:8000',
+        target: SERVER_URL,
+        changeOrigin: true,
       },
     },
     port: 8080,
     strictPort: true,
     host: true,
-    origin: 'http://0.0.0.0:8080',
+    origin: CLIENT_URL,
   },
 });

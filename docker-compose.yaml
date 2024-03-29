@@ -2,12 +2,14 @@ version: "3.9"
 services:
   mongodb:
     image: mongo:jammy
-    restart: always
     ports:
       - "27017:27017"
     volumes:
       - ./db_data/:/data/db/
       - /etc/timezone:/etc/timezone:ro
+    networks:
+      - whisper_network
+
   mongoexpress:
     image: mongo-express
     ports:
@@ -16,7 +18,9 @@ services:
       - ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017
     depends_on:
       - mongodb
-    restart: always
+    networks:
+      - whisper_network
+
   server:
     build:
       context: ./server
@@ -26,7 +30,9 @@ services:
       - '8000:8000'
     depends_on:
       - mongodb
-    restart: always
+    networks:
+      - whisper_network
+
   client:
     build:
       context: ./client
@@ -36,3 +42,8 @@ services:
       - '8080:8080'
     depends_on:
       - server
+    networks:
+      - whisper_network
+
+networks:
+  whisper_network:

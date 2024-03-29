@@ -28,14 +28,17 @@ export const register = async (req, res) => {
     });
 
     if (newUser) {
-      generateTokenAndSetCookie(newUser._id, res);
+      const token = generateTokenAndSetCookie(newUser._id, res);
       await newUser.save();
-      res.status(201).json({ msg: 'User created successfully', newUser });
+      res
+        .status(201)
+        .json({ msg: 'User created successfully', newUser, token });
     } else {
       return res.status(400).json({ error: 'Invalid user data' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
+    console.log(error);
   }
 };
 
@@ -53,22 +56,14 @@ export const login = async (req, res) => {
       return res.json({ error: 'Invalid credentials' });
     }
 
-    generateTokenAndSetCookie(user._id, res);
+    const token = generateTokenAndSetCookie(user._id, res);
 
     return res.status(200).json({
       _id: user._id,
       fullName: user.fullName,
       username: user.username,
+      token,
     });
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-export const logout = async (req, res) => {
-  try {
-    res.cookie('jwt', '', { maxAge: 0 });
-    res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
