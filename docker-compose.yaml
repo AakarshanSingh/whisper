@@ -1,9 +1,9 @@
-version: "3.9"
 services:
   mongodb:
+    container_name: mongodb
     image: mongo:jammy
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - ./db_data/:/data/db/
       - /etc/timezone:/etc/timezone:ro
@@ -11,9 +11,10 @@ services:
       - whisper_network
 
   mongoexpress:
+    container_name: mongo-express
     image: mongo-express
     ports:
-      - "8081:8081"
+      - 8081:8081
     environment:
       - ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017
     depends_on:
@@ -22,28 +23,44 @@ services:
       - whisper_network
 
   server:
+    container_name: server
     build:
       context: ./server
     volumes:
       - ./server:/app
     ports:
-      - '8000:8000'
+      - 8000:8000
     depends_on:
       - mongodb
     networks:
       - whisper_network
 
   client:
+    container_name: client
     build:
       context: ./client
     volumes:
       - ./client/src:/app/src
     ports:
-      - '8080:8080'
+      - 8080:8080
     depends_on:
       - server
     networks:
       - whisper_network
-
+  core:
+    image: nginx:latest
+    restart: always
+    container_name: nginx_app
+    depends_on:
+      - client
+      - server
+      - mongodb
+    volumes:
+      - ./core/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - whisper_network
+    ports:
+      - 80:80
 networks:
   whisper_network:
+    driver: bridge

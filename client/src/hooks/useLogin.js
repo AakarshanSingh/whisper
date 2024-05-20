@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../context/AuthContext';
+import { SERVER_URL } from '../global';
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const useLogin = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/auth/login`, {
+      const res = await fetch(`${SERVER_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

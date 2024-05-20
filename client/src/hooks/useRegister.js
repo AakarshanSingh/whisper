@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../context/AuthContext';
+import { SERVER_URL } from '../global';
 
 const useRegister = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const useRegister = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/auth/register`, {
+      const res = await fetch(`${SERVER_URL}/api/auth/register`, {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ fullName, username, password, confirmPassword }),

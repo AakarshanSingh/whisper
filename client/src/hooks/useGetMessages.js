@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useConversation from '../zustand/useConversation';
 import { toast } from 'react-toastify';
+import { SERVER_URL } from '../global';
 
 const useGetMessages = () => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ const useGetMessages = () => {
       try {
         const token = JSON.parse(localStorage.getItem('whisper')).token;
         const res = await fetch(
-          `/api/message/${selectedConversation._id}`,
+          `${SERVER_URL}/api/message/${selectedConversation._id}`,
           {
             method: 'GET',
             headers: {

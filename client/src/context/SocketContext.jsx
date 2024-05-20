@@ -4,7 +4,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuthContext } from './AuthContext';
 import io from 'socket.io-client';
-import { SERVER_URL } from '../../global';
+import { SERVER_URL } from '../global';
 
 export const SocketContext = createContext();
 

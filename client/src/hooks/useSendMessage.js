@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useConversation from '../zustand/useConversation';
 import { toast } from 'react-toastify';
+import { SERVER_URL } from '../global';
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ const useSendMessage = () => {
     try {
       const token = JSON.parse(localStorage.getItem('whisper')).token;
       const res = await fetch(
-        `/api/message/send/${selectedConversation._id}`,
+        `${SERVER_URL}/api/message/send/${selectedConversation._id}`,
         {
           method: 'POST',
           headers: {
