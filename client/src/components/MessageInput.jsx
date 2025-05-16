@@ -3,20 +3,25 @@ import { IoMdSend } from 'react-icons/io';
 import useSendMessage from '../hooks/useSendMessage';
 import { BsFillImageFill } from 'react-icons/bs';
 import usePreviewImage from '../hooks/usePreviewImage';
+import { toast } from 'react-toastify';
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
   const { loading, sendMessage } = useSendMessage();
   const imageRef = useRef(null);
   let { handleImageChange, imgUrl, setImgUrl } = usePreviewImage();
-
   const handleSendImage = async (e) => {
     e.preventDefault();
     if (!imgUrl) {
+      toast.error("No image selected");
       return;
     }
-    await sendMessage('', imgUrl);
-    setImgUrl('');
+    try {
+      await sendMessage('', imgUrl);
+      setImgUrl('');
+    } catch (error) {
+      toast.error("Failed to send image");
+    }
   };
 
   const handleSubmit = async (e) => {

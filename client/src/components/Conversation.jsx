@@ -2,6 +2,7 @@
 // import { useSelector } from 'react-redux';
 import { useSocketContext } from '../context/SocketContext';
 import useConversation from '../zustand/useConversation';
+import { getDefaultAvatarUrl } from '../utils/messageDebug';
 
 const Conversation = ({ conversation, lastIndex }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
@@ -18,11 +19,17 @@ const Conversation = ({ conversation, lastIndex }) => {
         className={`flex gap-2 items-center hover:bg-secondary rounded p-2 py-1 cursor-pointer ${
           isSelected && 'bg-secondary'
         }`}
-        onClick={() => setSelectedConversation(conversation)}
-      >
+        onClick={() => setSelectedConversation(conversation)}      >
         <div className={`avatar ${isOnline && 'online'}`}>
           <div className="w-12 rounded-full">
-            <img src={conversation.profilePic} alt="avatar" />
+            <img 
+              src={conversation.profilePic || getDefaultAvatarUrl(conversation.fullName)} 
+              alt="avatar"
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = getDefaultAvatarUrl(conversation.fullName);
+              }} 
+            />
           </div>
         </div>
         <div className="flex flex-col flex-1">

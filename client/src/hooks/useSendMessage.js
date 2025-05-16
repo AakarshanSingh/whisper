@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useConversation from '../zustand/useConversation';
 import { toast } from 'react-toastify';
 import { SERVER_URL } from '../global';
+import { ensureMessagesArray } from '../utils/messageDebug';
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
@@ -26,7 +27,8 @@ const useSendMessage = () => {
       if (data.error) {
         throw new Error(data.error);
       }
-      setMessages([...messages, data]);
+      const safeMessages = ensureMessagesArray(messages);
+      setMessages([...safeMessages, data]);
     } catch (error) {
       toast.error(error.message);
     }

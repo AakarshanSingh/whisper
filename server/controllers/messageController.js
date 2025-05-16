@@ -59,14 +59,14 @@ export const getMessages = async (req, res) => {
   try {
     const { id: userToChatId } = req.params;
 
-    const senderId = req.user._id;
-
+    const senderId = req.user._id; 
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, userToChatId] },
     }).populate('messages');
 
     if (conversation === null) {
-      return res.status(200).json({ message: 'Search to chat with someone' });
+      // Return an empty array when there's no conversation to prevent "not iterable" errors
+      return res.status(200).json([]);
     }
 
     res.status(200).json(conversation.messages);
