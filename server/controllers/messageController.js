@@ -62,15 +62,43 @@ export const getMessages = async (req, res) => {
     const senderId = req.user._id; 
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, userToChatId] },
-    }).populate('messages');
+    }).populate({
+      path: 'messages',
+      populate: {
+        path: 'senderId',
+        select: 'fullName profilePic' // Get sender's name and profile picture
+      }
+    });
 
     if (conversation === null) {
       // Return an empty array when there's no conversation to prevent "not iterable" errors
       return res.status(200).json([]);
     }
+    
+    // Format messages to include sender name for avatars
+    const formattedMessages = conversation.messages.map(msg => {
+      // If the message has sender info populated, extract the name
+      const senderName = msg.senderId && typeof msg.senderId === 'object' ? 
+        msg.senderId.fullName : undefined;
+      
+      // Convert to plain object and add senderName
+      const messageObj = msg.toObject();
+      if (senderName) {
+        messageObj.senderName = senderName;
+        // If senderId is an object with profilePic, save it as senderProfilePic
+        if (msg.senderId.profilePic) {
+          messageObj.senderProfilePic = msg.senderId.profilePic;
+        }
+        // Convert senderId back to string ID for consistency
+        messageObj.senderId = msg.senderId._id;
+      }
+      
+      return messageObj;
+    });
 
-    res.status(200).json(conversation.messages);
+    res.status(200).json(formattedMessages);
   } catch (error) {
-    res.status(500).json({ error: error });
+    console.error("Error getting messages:", error);
+    res.status(500).json({ error: error.message || "Failed to get messages" });
   }
 };
