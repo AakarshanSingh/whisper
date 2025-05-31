@@ -65,79 +65,80 @@ const MessageInput = () => {
       e.preventDefault();
       handleSubmit(e);
     }
-  };
-  return (
-    <div className='flex flex-col'>
+  };  return (
+    <div className='bg-secondary border-t border-gray-700/50 shadow-lg overflow-hidden backdrop-blur-sm'>
       {/* Image Preview Card */}
-      <div
-        className={`${
-          imgUrl === '' || imgUrl === null ? 'hidden' : ''
-        } mx-auto mt-4 mb-2 card w-2/3 bg-gray-800 shadow-xl border border-gray-700 rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02]`}
-      >
-        <div className='relative'>
-          <button
-            onClick={() => setImgUrl('')}
-            className='absolute top-2 right-2 z-10 bg-red-500 hover:bg-red-600 rounded-full p-1 text-white transition-colors'
-          >
-            <AiOutlineClose size={16} />
-          </button>
-          <figure className='px-4 pt-4'>
-            <img
-              src={imgUrl}
-              alt='Image'
-              className='rounded-xl w-full object-cover max-h-64'
-            />
-          </figure>
-        </div>
-        <div className='card-body pt-2 pb-4'>
-          <div className='card-actions justify-end'>
+      {imgUrl && (
+        <div className="mx-4 mt-3 mb-2 bg-gray-800/90 rounded-2xl border border-gray-600/50 overflow-hidden shadow-xl backdrop-blur-sm">
+          <div className='relative'>
             <button
-              className='btn btn-sm bg-message hover:bg-blue-600 text-white border-none shadow-lg transition-all duration-300 transform hover:-translate-y-0.5'
-              onClick={handleSendImage}
-              disabled={loading}
+              onClick={() => setImgUrl('')}
+              className='absolute top-3 right-3 z-10 bg-red-500/90 hover:bg-red-500 rounded-full p-2 text-white transition-all duration-200 shadow-lg hover:scale-110'
             >
-              {loading ? (
-                <div className='loading loading-spinner loading-xs' />
-              ) : (
-                <div className='flex items-center gap-2'>
-                  <span>Send Image</span>
-                  <IoMdSend className='h-4 w-4' />
-                </div>
-              )}
+              <AiOutlineClose size={14} />
             </button>
+            <div className='p-4'>
+              <img
+                src={imgUrl}
+                alt='Image preview'
+                className='rounded-xl w-full object-cover max-h-48 shadow-md'
+              />
+            </div>
+          </div>
+          <div className='px-4 pb-4'>
+            <div className='flex justify-end'>
+              <button
+                className='bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full transition-all duration-200 hover:scale-105 shadow-lg font-medium flex items-center gap-2'
+                onClick={handleSendImage}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className='loading loading-spinner loading-xs' />
+                ) : (
+                  <>
+                    <span>Send Image</span>
+                    <IoMdSend className='h-4 w-4' />
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Message Input Bar */}
-      <div className='flex items-center bg-secondary bg-opacity-50 mx-4 mb-4 rounded-full shadow-lg'>
-        <div className='flex items-center gap-2 ml-4'>
+      <div className='flex items-end gap-3 p-4'>
+        {/* Action Buttons */}
+        <div className='flex items-center gap-1 mb-2'>
           <button
             type='button'
-            className='p-2 rounded-full hover:bg-primary transition-colors'
+            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
             onClick={() => imageRef.current.click()}
+            title="Send Image"
           >
             <BsFillImageFill
               size={20}
-              className='text-message hover:text-blue-400 transition-colors'
+              className='text-gray-400 group-hover:text-blue-400 transition-colors duration-200'
             />
           </button>
           <button
             type='button'
-            className='p-2 rounded-full hover:bg-primary transition-colors'
+            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
+            title="Emoji"
           >
             <BsEmojiSmile
               size={20}
-              className='text-message hover:text-blue-400 transition-colors'
+              className='text-gray-400 group-hover:text-yellow-400 transition-colors duration-200'
             />
           </button>
           <button
             type='button'
-            className='p-2 rounded-full hover:bg-primary transition-colors'
+            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
+            title="Attach File"
           >
             <RiAttachment2
-              size={22}
-              className='text-message hover:text-blue-400 transition-colors'
+              size={20}
+              className='text-gray-400 group-hover:text-green-400 transition-colors duration-200'
             />
           </button>
           <input
@@ -149,33 +150,54 @@ const MessageInput = () => {
           />
         </div>
 
-        <form className='px-2 py-2 flex-1' onSubmit={handleSubmit}>
-          <div className='w-full relative'>
-            <input
-              ref={inputRef}
-              type='text'
-              placeholder='Type a message...'
-              className='border-none text-sm rounded-full block w-full py-2.5 px-4 bg-primary text-textColor focus:ring-1 focus:ring-message focus:outline-none transition-all'
-              value={message}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyPress}
-            />{' '}
-            <button
-              type='submit'
-              className='absolute inset-y-0 end-0 flex items-center pr-3 rounded-full'
-              disabled={!message.trim() && !loading}
-            >
-              {loading ? (
-                <div className='loading loading-spinner loading-sm text-message' />
-              ) : (
-                <IoMdSend
-                  className={`h-6 w-6 ${
-                    message.trim() ? 'text-message' : 'text-gray-500'
-                  } transition-colors hover:scale-110`}
-                />
+        {/* Message Input Form */}
+        <form className='flex-1 flex items-end' onSubmit={handleSubmit}>
+          <div className='flex-1 relative'>
+            <div className='relative bg-gray-800/70 rounded-3xl border border-gray-600/50 shadow-lg hover:border-gray-500/50 transition-all duration-200 focus-within:border-blue-500/50 focus-within:shadow-blue-500/10 focus-within:shadow-xl backdrop-blur-sm'>
+              <textarea
+                ref={inputRef}
+                placeholder='Type a message...'
+                className='w-full py-4 px-6 bg-transparent text-gray-100 rounded-3xl focus:outline-none resize-none max-h-32 min-h-[56px] placeholder-gray-400 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent'
+                value={message}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyPress}
+                rows={1}
+                style={{ 
+                  height: 'auto',
+                  minHeight: '56px',
+                  maxHeight: '128px'
+                }}
+                onInput={(e) => {
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px';
+                }}
+              />
+              {/* Typing indicator */}
+              {isTyping && message && (
+                <div className='absolute bottom-1 left-6 text-xs text-blue-400 opacity-75'>
+                  typing...
+                </div>
               )}
-            </button>
+            </div>
           </div>
+          
+          {/* Send Button */}
+          <button
+            type='submit'
+            className={`ml-3 p-3 rounded-full transition-all duration-200 shadow-lg ${
+              message.trim() 
+                ? 'bg-blue-600 hover:bg-blue-500 text-white hover:scale-110 shadow-blue-500/30' 
+                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+            }`}
+            disabled={!message.trim() || loading}
+            title="Send Message"
+          >
+            {loading ? (
+              <div className='loading loading-spinner loading-sm' />
+            ) : (
+              <IoMdSend className='h-5 w-5' />
+            )}
+          </button>
         </form>
       </div>
     </div>

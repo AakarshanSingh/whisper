@@ -48,32 +48,35 @@ const Messages = () => {
     const prevDate = new Date(safeMessages[index - 1].createdAt).toDateString();
     
     return currentDate !== prevDate;
-  };
-  
-  return (
+    };  return (
     <div 
       ref={containerRef}
-      className="px-4 flex-1 overflow-auto relative scroll-smooth bg-gradient-to-b from-primary to-[#262a3b]"
+      className="h-full overflow-y-auto overflow-x-hidden px-3 py-4 bg-gradient-to-b from-primary to-[#262a3b] relative"
     >
       {showScrollButton && (
         <button 
           onClick={scrollToBottom}
-          className="absolute bottom-5 right-5 z-10 bg-message hover:bg-blue-600 text-white rounded-full p-2 shadow-lg transition-all duration-300 animate-bounce"
+          className="absolute bottom-6 right-6 z-10 bg-message hover:bg-blue-600 text-white rounded-full p-3 shadow-lg transition-all duration-300 animate-bounce hover:animate-none"
         >
-          <IoIosArrowDown size={20} />
+          <IoIosArrowDown size={18} />
         </button>
       )}
       
       {/* Message List */}
-      <div className="py-4 space-y-1">
+      <div className="space-y-3">
         {!loading && safeMessages.length > 0 && (
           <>
             {safeMessages.map((message, index) => (
-              <div key={message._id} className="relative" ref={index === safeMessages.length - 1 ? lastMessageRef : null}>
+              <div key={message._id} className="relative animate-fade-in" ref={index === safeMessages.length - 1 ? lastMessageRef : null}>
                 {renderMessageDate(message, index) && (
-                  <div className="flex justify-center my-4">
-                    <span className="px-3 py-1 rounded-full bg-gray-700 bg-opacity-60 text-xs text-gray-300">
-                      {new Date(message.createdAt).toLocaleDateString()}
+                  <div className="flex justify-center my-6">
+                    <span className="px-4 py-2 rounded-full bg-gray-700 bg-opacity-70 text-xs text-gray-300 border border-gray-600">
+                      {new Date(message.createdAt).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
                     </span>
                   </div>
                 )}
