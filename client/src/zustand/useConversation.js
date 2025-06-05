@@ -32,6 +32,22 @@ const useConversation = create((set, get) => ({
     console.log('Setting messages in store:', messages);
     set({ messages: ensureMessagesArray(messages) });
   },
+  conversations: [],
+  setConversations: (conversations) => {
+    console.log('Setting conversations in store:', conversations);
+    set({ conversations });
+  },
+  updateConversation: (updatedConversation) => {
+    const { conversations } = get();
+    const updatedConversations = conversations.map(conv => 
+      conv._id === updatedConversation._id ? updatedConversation : conv
+    );
+    // If the conversation is new, add it to the list
+    if (!conversations.find(conv => conv._id === updatedConversation._id)) {
+      updatedConversations.unshift(updatedConversation); // Add to beginning for newest first
+    }
+    set({ conversations: updatedConversations });
+  },
 }));
 
 export default useConversation;

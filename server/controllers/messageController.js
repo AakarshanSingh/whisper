@@ -45,15 +45,37 @@ export const sendMessage = async (req, res) => {
     if (newMessage) {
       conversation.lastMessage = newMessage._id;
       conversation.lastMessageAt = new Date();
-    }    await Promise.all([conversation.save(), newMessage.save()]);    // Only emit to receiver if it's not a self-chat
+    }    await Promise.all([conversation.save(), newMessage.save()]);
+
+    // Populate the conversation with participant information for the frontend
+    await conversation.populate('participants', 'fullName profilePic username');
+    
+    // Format the conversation object similar to how getConversations does it
+    const loggedInUserId = senderId;
+    const otherParticipant = conversation.participants.find(
+      participant => participant._id.toString() !== loggedInUserId.toString()
+    );
+    
+    const formattedConversation = {
+      _id: isSelfChat ? senderId : otherParticipant._id,
+      fullName: isSelfChat ? req.user.fullName : otherParticipant.fullName,
+      profilePic: isSelfChat ? req.user.profilePic : otherParticipant.profilePic,
+      username: isSelfChat ? req.user.username : otherParticipant.username,
+      lastMessage: message || '',
+      lastMessageAt: conversation.lastMessageAt,
+      conversationId: conversation._id
+    };
+
+    // Only emit to receiver if it's not a self-chat
     if (!isSelfChat) {
       const receiverSocketId = getReceiverSocketId(receiverId);
       if (receiverSocketId) {
-        io.to(receiverSocketId).emit('newMessage', newMessage);
+        io.to(receiverSocketId).emit('newMessage', { newMessage, conversation: formattedConversation });
       }
     }
 
-    res.status(201).json(newMessage);
+    // Respond with both the new message and the formatted conversation
+    res.status(201).json({ newMessage, conversation: formattedConversation });
   } catch (error) {
     res.status(500).json({ error });
   }

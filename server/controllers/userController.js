@@ -31,6 +31,24 @@ export const getConversations = async (req, res) => {
 
     // Format conversations to include the other participant's info
     const formattedConversations = conversations.map(conversation => {
+      // Check if this is a self-chat (saved messages)
+      const isSelfChat = conversation.participants.length === 1 && 
+                        conversation.participants[0]._id.toString() === loggedInUserId.toString();
+      
+      if (isSelfChat) {
+        // For self-chat, show "Saved Messages"
+        return {
+          _id: loggedInUserId,
+          fullName: 'Saved Messages',
+          profilePic: req.user.profilePic,
+          username: req.user.username,
+          lastMessage: conversation.lastMessage?.textContent || 
+                      (conversation.lastMessage?.messageType === 'image' ? '📷 Image' : ''),
+          lastMessageAt: conversation.lastMessageAt,
+          conversationId: conversation._id
+        };
+      }
+
       // Get the other participant (not the logged-in user)
       const otherParticipant = conversation.participants.find(
         participant => participant._id.toString() !== loggedInUserId.toString()
@@ -45,7 +63,7 @@ export const getConversations = async (req, res) => {
         username: otherParticipant.username,
         lastMessage: conversation.lastMessage?.textContent || 
                     (conversation.lastMessage?.messageType === 'image' ? '📷 Image' : ''),
-        lastMessageTime: conversation.lastMessage?.createdAt,
+        lastMessageAt: conversation.lastMessageAt,
         conversationId: conversation._id
       };
     }).filter(Boolean); // Remove null entries

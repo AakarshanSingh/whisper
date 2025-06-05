@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import useConversation from '../zustand/useConversation';
 import { getDefaultAvatarUrl } from '../utils/messageDebug';
+import { formatConversationTime } from '../utils/formatTime';
 import { useState } from 'react';
 
 const Conversation = ({ conversation, lastIndex }) => {
@@ -52,9 +53,8 @@ const Conversation = ({ conversation, lastIndex }) => {
             }`}>
               {conversation.fullName}
             </p>
-            
-            <span className="text-xs text-gray-500">
-              {conversation.lastMessageTime || ''}
+              <span className="text-xs text-gray-500">
+              {formatConversationTime(conversation.lastMessageAt || conversation.updatedAt)}
             </span>
           </div>
           
