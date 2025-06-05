@@ -17,14 +17,16 @@ const Homepage = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
-  return (
+  }, []);  return (
     <>
-      <div className="flex h-screen w-screen bg-gray-900 overflow-hidden">
-        <div className="w-80 min-w-80 max-w-80 flex-shrink-0 overflow-hidden">
+      <div className="flex h-screen w-screen overflow-hidden bg-background dark">
+        {/* Sidebar */}
+        <div className="w-80 min-w-80 max-w-80 flex-shrink-0 overflow-hidden border-r border-border shadow-xl bg-card/30 backdrop-blur-sm">
           <Sidebar onOpenSearchModal={() => setIsSearchModalOpen(true)} />
         </div>
-        <div className="flex-1 min-w-0 overflow-hidden">
+        
+        {/* Main Chat Area */}
+        <div className="flex-1 min-w-0 overflow-hidden bg-background/50">
           <MessageContainer />
         </div>
       </div>

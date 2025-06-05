@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
-import { IoMdSend } from 'react-icons/io';
+import { Send, Image, X } from 'lucide-react';
 import useSendMessage from '../hooks/useSendMessage';
-import { BsFillImageFill } from 'react-icons/bs';
-import { AiOutlineClose } from 'react-icons/ai';
 import usePreviewImage from '../hooks/usePreviewImage';
 import { toast } from 'react-toastify';
+import { Button } from './ui/Button';
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
@@ -51,60 +50,63 @@ const MessageInput = () => {
       handleSubmit(e);
     }
   };  return (
-    <div className='bg-secondary border-t border-gray-700/50 shadow-lg overflow-hidden backdrop-blur-sm'>
+    <div className='bg-card border-t border-border/50'>
       {/* Image Preview Card */}
       {imgUrl && (
-        <div className="mx-4 mt-3 mb-2 bg-gray-800/90 rounded-2xl border border-gray-600/50 overflow-hidden shadow-xl backdrop-blur-sm">
+        <div className="mx-3 mt-3 mb-2 bg-card rounded-lg border border-border shadow-sm overflow-hidden animate-fadeIn">
           <div className='relative'>
-            <button
+            <Button
               onClick={() => setImgUrl('')}
-              className='absolute top-3 right-3 z-10 bg-red-500/90 hover:bg-red-500 rounded-full p-2 text-white transition-all duration-200 shadow-lg hover:scale-110'
+              size="sm"
+              variant="destructive"
+              className='absolute top-2 right-2 z-10 h-6 w-6 p-0 shadow-sm'
             >
-              <AiOutlineClose size={14} />
-            </button>
-            <div className='p-4'>
+              <X size={12} />
+            </Button>
+            <div className='p-3'>
               <img
                 src={imgUrl}
                 alt='Image preview'
-                className='rounded-xl w-full object-cover max-h-48 shadow-md'
+                className='rounded-lg w-full h-auto object-contain max-h-48'
               />
             </div>
           </div>
-          <div className='px-4 pb-4'>
+          <div className='px-3 pb-3 pt-1'>
             <div className='flex justify-end'>
-              <button
-                className='bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full transition-all duration-200 hover:scale-105 shadow-lg font-medium flex items-center gap-2'
+              <Button
                 onClick={handleSendImage}
                 disabled={loading}
+                size="sm"
+                className='px-3 py-1.5 flex items-center gap-1.5 text-sm'
               >
                 {loading ? (
-                  <div className='loading loading-spinner loading-xs' />
+                  <div className='animate-spin rounded-full h-3 w-3 border-b-2 border-primary-foreground' />
                 ) : (
                   <>
                     <span>Send Image</span>
-                    <IoMdSend className='h-4 w-4' />
+                    <Send className='h-3 w-3' />
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       )}
 
       {/* Message Input Bar */}
-      <div className='flex items-end gap-3 p-4'>        {/* Action Buttons */}
-        <div className='flex items-center gap-1 mb-2'>
-          <button
+      <div className='flex items-end gap-2 px-3 py-2'>
+        {/* Action Buttons */}
+        <div className='flex items-center'>
+          <Button
             type='button'
-            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
+            variant="ghost"
+            size="icon"
+            className='h-8 w-8 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors'
             onClick={() => imageRef.current.click()}
             title="Send Image"
           >
-            <BsFillImageFill
-              size={20}
-              className='text-gray-400 group-hover:text-blue-400 transition-colors duration-200'
-            />
-          </button>
+            <Image size={18} />
+          </Button>
           <input
             type='file'
             className='hidden'
@@ -115,46 +117,45 @@ const MessageInput = () => {
         </div>
 
         {/* Message Input Form */}
-        <form className='flex-1 flex items-end' onSubmit={handleSubmit}>
+        <form className='flex-1 flex items-end gap-2' onSubmit={handleSubmit}>
           <div className='flex-1 relative'>
-            <div className='relative bg-gray-800/70 rounded-3xl border border-gray-600/50 shadow-lg hover:border-gray-500/50 transition-all duration-200 focus-within:border-blue-500/50 focus-within:shadow-blue-500/10 focus-within:shadow-xl backdrop-blur-sm'>              <textarea
+            <div className='relative bg-background rounded-lg border border-border shadow-sm hover:border-ring transition-all duration-200 focus-within:border-ring focus-within:ring-1 focus-within:ring-ring/20'>
+              <textarea
                 ref={inputRef}
                 placeholder='Type a message...'
-                className='w-full py-4 px-6 bg-transparent text-gray-100 rounded-3xl focus:outline-none resize-none max-h-32 min-h-[56px] placeholder-gray-400 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent'
+                className='w-full py-2 px-3 bg-transparent text-foreground rounded-lg focus:outline-none resize-none max-h-24 min-h-[36px] placeholder-muted-foreground text-sm'
                 value={message}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 rows={1}
                 style={{ 
                   height: 'auto',
-                  minHeight: '56px',
-                  maxHeight: '128px'
+                  minHeight: '36px',
+                  maxHeight: '96px'
                 }}
                 onInput={(e) => {
                   e.target.style.height = 'auto';
-                  e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 96) + 'px';
                 }}
               />
             </div>
           </div>
           
           {/* Send Button */}
-          <button
+          <Button
             type='submit'
-            className={`ml-3 p-3 rounded-full transition-all duration-200 shadow-lg ${
-              message.trim() 
-                ? 'bg-blue-600 hover:bg-blue-500 text-white hover:scale-110 shadow-blue-500/30' 
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
+            variant={message.trim() ? "default" : "secondary"}
+            size="icon"
+            className='h-8 w-8 rounded-full shadow-sm hover:scale-105 transition-transform'
             disabled={!message.trim() || loading}
             title="Send Message"
           >
             {loading ? (
-              <div className='loading loading-spinner loading-sm' />
+              <div className='animate-spin rounded-full h-3 w-3 border-b-2 border-primary-foreground' />
             ) : (
-              <IoMdSend className='h-5 w-5' />
+              <Send className='h-3 w-3' />
             )}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

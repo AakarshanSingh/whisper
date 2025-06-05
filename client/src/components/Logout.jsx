@@ -1,24 +1,23 @@
-import { CiLogout } from 'react-icons/ci';
+import { LogOut } from 'lucide-react';
 import useLogout from '../hooks/useLogout';
+import { Button } from './ui/Button';
 
 const Logout = () => {
-  const { loading, logout } = useLogout();
-  
-  return (
-    <button
+  const { loading, logout } = useLogout();  return (    <Button
       onClick={logout}
       disabled={loading}
-      className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-700/50 hover:bg-red-600/20 border border-gray-600/50 hover:border-red-500/50 text-gray-300 hover:text-red-400 transition-all duration-200 group"
+      variant="destructive"
+      className="w-full justify-start gap-2 p-3 h-auto bg-destructive/10 hover:bg-destructive/20 border border-destructive/20 hover:border-destructive/40 text-destructive hover:text-destructive-foreground transition-all duration-200 rounded-lg shadow-sm hover:shadow-md"
     >
       {loading ? (
-        <div className="loading loading-spinner loading-sm" />
+        <div className="animate-spin rounded-full h-4 w-4 border-2 border-destructive border-t-transparent" />
       ) : (
-        <CiLogout className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+        <LogOut className="w-4 h-4" />
       )}
-      <span className="font-medium">
+      <span className="font-semibold text-sm">
         {loading ? 'Logging out...' : 'Logout'}
       </span>
-    </button>
+    </Button>
   );
 };
 

@@ -1,41 +1,55 @@
-const MessageSkeleton = () => {
-  // Randomly determine bubble width for more realistic appearance
-  const getRandomWidth = () => {
-    const sizes = ['w-24', 'w-32', 'w-40', 'w-48', 'w-56'];
-    return sizes[Math.floor(Math.random() * sizes.length)];
-  };
+import { Skeleton } from "./ui/Skeleton"
 
+const MessageSkeleton = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4">
       {/* Incoming message skeleton */}
-      <div className="chat chat-start">
-        <div className="chat-image avatar">
-          <div className="skeleton w-8 h-8 rounded-full shrink-0"></div>
-        </div>
-        <div className={`chat-bubble bg-secondary bg-opacity-60 ${getRandomWidth()}`}>
-          <div className="flex flex-col gap-1">
-            <div className="skeleton h-3 w-full"></div>
-            <div className="skeleton h-3 w-4/5"></div>
+      <div className="flex items-start gap-3">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-3 w-12" />
           </div>
-        </div>
-        <div className="chat-footer opacity-50 text-xs">
-          <div className="skeleton h-2 w-8"></div>
+          <div className="rounded-lg bg-muted p-3 max-w-xs">
+            <Skeleton className="h-3 w-32 mb-2" />
+            <Skeleton className="h-3 w-24" />
+          </div>
         </div>
       </div>
 
       {/* Outgoing message skeleton */}
-      <div className="chat chat-end">
-        <div className={`chat-bubble bg-message bg-opacity-60 ${getRandomWidth()}`}>
-          <div className="flex flex-col gap-1">
-            <div className="skeleton h-3 w-full"></div>
-            <div className="skeleton h-3 w-3/4"></div>
+      <div className="flex items-start gap-3 justify-end">
+        <div className="flex flex-col gap-2 items-end">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-3 w-12" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <div className="rounded-lg bg-primary p-3 max-w-xs">
+            <Skeleton className="h-3 w-28 mb-2" />
+            <Skeleton className="h-3 w-20" />
           </div>
         </div>
-        <div className="chat-footer opacity-50 text-xs">
-          <div className="skeleton h-2 w-8"></div>
+        <Skeleton className="h-8 w-8 rounded-full" />
+      </div>
+
+      {/* Incoming message skeleton */}
+      <div className="flex items-start gap-3">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-3 w-12" />
+          </div>
+          <div className="rounded-lg bg-muted p-3 max-w-xs">
+            <Skeleton className="h-3 w-40 mb-2" />
+            <Skeleton className="h-3 w-32 mb-2" />
+            <Skeleton className="h-3 w-28" />
+          </div>
         </div>
       </div>
     </div>
-  );
-};
-export default MessageSkeleton;
+  )
+}
+
+export default MessageSkeleton

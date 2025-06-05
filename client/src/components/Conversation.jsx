@@ -17,64 +17,69 @@ const Conversation = ({ conversation, lastIndex }) => {
   // Use fullName for avatars to avoid showing numbers like "6"
   const avatarUrl = imageError || !conversation.profilePic 
     ? getDefaultAvatarUrl(conversation.fullName) 
-    : conversation.profilePic;
-  return (
+    : conversation.profilePic;  return (
     <>
-      <div
-        className={`relative flex gap-3 items-center p-4 mx-2 cursor-pointer transition-all duration-200 ease-in-out rounded-xl group ${
+      <div        className={`relative flex gap-3 items-center p-3 mx-2 my-1 cursor-pointer transition-all duration-200 ease-out rounded-lg group conversation-item ${
           isSelected 
-            ? 'bg-gradient-to-r from-blue-600/20 to-blue-500/10 border-l-4 border-blue-500' 
-            : 'hover:bg-gray-800/50 hover:translate-x-1'
+            ? 'active bg-accent shadow-md border border-primary/20' 
+            : 'hover:bg-accent/70 hover:shadow-sm'
         }`}
         onClick={() => setSelectedConversation(conversation)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="avatar relative">
-          <div className={`w-14 h-14 rounded-full transition-all duration-200 ${
+        <div className="relative">          <div className={`w-10 h-10 rounded-full transition-all duration-200 overflow-hidden border-2 ${
             isSelected 
-              ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-900' 
+              ? 'border-primary shadow-sm' 
               : isHovered 
-                ? 'ring-2 ring-gray-600 ring-offset-1 ring-offset-gray-900 scale-105' 
-                : 'ring-1 ring-gray-700'
+                ? 'border-border scale-105 shadow-sm' 
+                : 'border-border/30'
           }`}>
             <img 
               src={avatarUrl} 
               alt={conversation.fullName}
               onError={handleImageError}
-              className="w-full h-full object-cover rounded-full bg-gray-700"
+              className="w-full h-full object-cover"
             />
-          </div>
+          </div>          {/* Online status indicator */}
+          <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background transition-all duration-200 ${
+            isSelected ? 'bg-green-500 shadow-sm' : 'bg-muted-foreground/40'
+          }`} />
         </div>
-          <div className="flex flex-col flex-1 min-w-0">
-          <div className="flex justify-between items-center mb-1">
-            <p className={`font-semibold text-base truncate transition-colors duration-200 ${
-              isSelected ? 'text-blue-400' : 'text-gray-100'
+
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex justify-between items-center mb-1">            <p className={`font-semibold text-sm truncate transition-colors duration-200 ${
+              isSelected ? 'text-accent-foreground' : 'text-foreground'
             }`}>
               {conversation.fullName}
             </p>
-              <span className="text-xs text-gray-500">
+            <span className={`text-xs transition-colors duration-200 font-medium ${
+              isSelected ? 'text-accent-foreground/70' : 'text-muted-foreground'
+            }`}>
               {formatConversationTime(conversation.lastMessageAt || conversation.updatedAt)}
             </span>
           </div>
-          
-          <p className={`text-sm truncate transition-colors duration-200 ${
-            isSelected ? 'text-gray-300' : 'text-gray-400'
+          <p className={`text-xs truncate transition-colors duration-200 ${
+            isSelected ? 'text-accent-foreground/80' : 'text-muted-foreground'
           }`}>
             {conversation.lastMessage || "Start a new conversation"}
           </p>
         </div>
 
-        {/* Hover indicator */}
-        <div className={`absolute right-3 transition-all duration-200 ${
-          isHovered && !isSelected ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2'
+        {/* Hover/Active indicator */}
+        <div className={`absolute right-4 transition-all duration-200 ${
+          isSelected 
+            ? 'opacity-100' 
+            : isHovered 
+              ? 'opacity-70' 
+              : 'opacity-0'
         }`}>
-          <div className="w-2 h-2 bg-blue-500 rounded-full" />
+          <div className={`w-2 h-2 rounded-full ${
+            isSelected ? 'bg-primary' : 'bg-primary/70'
+          }`} />
         </div>
-      </div>
-      
-      {!lastIndex && (
-        <div className="mx-6 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent opacity-50" />
+      </div>      {!lastIndex && (
+        <div className="mx-4 h-px bg-border/30 my-1" />
       )}
     </>
   );

@@ -1,25 +1,24 @@
-import { CiSearch } from 'react-icons/ci';
-import { HiCommandLine } from 'react-icons/hi2';
+import { Search, Command } from 'lucide-react';
+import { Button } from './ui/Button';
 
 const SearchInput = ({ onOpenModal }) => {
   const handleOpenModal = () => {
     if (onOpenModal) {
       onOpenModal();
     }
-  };
-
-  return (
-    <button
+  };  return (
+    <Button
       onClick={handleOpenModal}
-      className='w-full flex items-center gap-3 px-4 py-3 bg-gray-700/50 hover:bg-gray-700/70 text-gray-300 hover:text-gray-100 rounded-xl transition-all duration-200 group border border-gray-600/30 hover:border-gray-500/50'
+      variant="ghost"
+      className="w-full justify-start gap-2 px-3 py-2 h-auto bg-muted/30 hover:bg-accent text-muted-foreground hover:text-accent-foreground border border-border/20 hover:border-ring transition-all duration-200 rounded-lg shadow-sm hover:shadow-md"
     >
-      <CiSearch className='text-xl flex-shrink-0 group-hover:scale-110 transition-transform duration-200' />
-      <span className='text-left flex-1 text-sm'>Search conversations...</span>
-      <div className='flex items-center gap-1 text-xs text-gray-500 group-hover:text-gray-400'>
-        <HiCommandLine className='text-sm' />
-        <span>K</span>
+      <Search className="text-base flex-shrink-0" />
+      <span className="text-left flex-1 text-sm font-medium">Search conversations...</span>
+      <div className="flex items-center gap-1 text-xs text-muted-foreground bg-background/30 px-1.5 py-0.5 rounded-md">
+        <Command className="text-xs" />
+        <span className="font-semibold">K</span>
       </div>
-    </button>
+    </Button>
   );
 };
 

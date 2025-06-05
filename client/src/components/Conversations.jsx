@@ -8,15 +8,15 @@ const Conversations = () => {
     <div className="py-2 flex flex-col overflow-auto">
       {loading ? (
         <div className="flex justify-center items-center py-8">
-          <div className="loading loading-spinner loading-md text-blue-400"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
         </div>
       ) : conversations.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
-          <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4 shadow-sm">
             <span className="text-2xl">💬</span>
           </div>
-          <p className="text-gray-400 text-sm">No conversations yet</p>
-          <p className="text-gray-500 text-xs mt-1">Start chatting with someone!</p>
+          <p className="text-muted-foreground text-sm font-medium">No conversations yet</p>
+          <p className="text-muted-foreground text-xs mt-1">Start chatting with someone!</p>
         </div>
       ) : (
         conversations.map((conversation, index) => (

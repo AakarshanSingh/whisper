@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useRegister from '../hooks/useRegister';
+import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -15,94 +17,122 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await register(inputs);
-  };
+  };  return (
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/10">
+      <div className="w-full max-w-md space-y-6">
+        {/* Logo/Header */}
+        <div className="text-center">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Whisper
+          </h1>
+          <p className="text-muted-foreground text-base sm:text-lg">Join the conversation</p>
+        </div>
 
-  return (
-    <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
-      <div className="md:w-full w-4/5 p-6 rounded-lg shadow-sm bg-secondary bg-clip-padding">
-        <h1 className="text-3xl font-semibold text-center text-gray-300">
-          Register
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="fullName" className="label p-2">
-              <span className="text-base label-text">Full Name</span>
-            </label>
-            <input
-              id="fullName"
-              type="text"
-              placeholder="Enter your full name"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={inputs.fullName}
-              onChange={(e) =>
-                setInputs({ ...inputs, fullName: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label htmlFor="username" className="label p-2">
-              <span className="text-base label-text">Username</span>
-            </label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Enter a username"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={inputs.username}
-              onChange={(e) =>
-                setInputs({ ...inputs, username: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="label p-2">
-              <span className="text-base label-text">Password</span>
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={inputs.password}
-              onChange={(e) =>
-                setInputs({ ...inputs, password: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label htmlFor="confirmPassword" className="label p-2">
-              <span className="text-base label-text">Confirm Password</span>
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm password"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={inputs.confirmPassword}
-              onChange={(e) =>
-                setInputs({ ...inputs, confirmPassword: e.target.value })
-              }
-            />
-          </div>
-          <Link
-            to="/login"
-            className="text-sm hover:text-message mt-2 inline-block"
-          >
-            Already have an account ? Login
-          </Link>
+        {/* Register Form */}
+        <div className="bg-card/90 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-border/30 shadow-2xl">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-center text-card-foreground mb-6 sm:mb-8">
+            Create Account
+          </h2>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <div>
+              <label htmlFor="fullName" className="block text-sm font-medium text-foreground mb-1 sm:mb-2">
+                Full Name
+              </label>
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="Enter your full name"
+                value={inputs.fullName}
+                onChange={(e) =>
+                  setInputs({ ...inputs, fullName: e.target.value })
+                }
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="btn btn-block btn-primary mt-3"
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="loading loading-spinner"></span>
-            ) : (
-              'Register'
-            )}
-          </button>
-        </form>
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-foreground mb-1 sm:mb-2">
+                Username
+              </label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Choose a unique username"
+                value={inputs.username}
+                onChange={(e) =>
+                  setInputs({ ...inputs, username: e.target.value })
+                }
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1 sm:mb-2">
+                Password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Create a secure password"
+                value={inputs.password}
+                onChange={(e) =>
+                  setInputs({ ...inputs, password: e.target.value })
+                }
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-1 sm:mb-2">
+                Confirm Password
+              </label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm your password"
+                value={inputs.confirmPassword}
+                onChange={(e) =>
+                  setInputs({ ...inputs, confirmPassword: e.target.value })
+                }
+                required
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="w-full py-2 sm:py-3"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary-foreground border-t-transparent"></div>
+                  <span>Creating account...</span>
+                </div>
+              ) : (
+                'Create Account'
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-6 sm:mt-8 text-center">
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Already have an account?{' '}
+              <Link
+                to="/login"
+                className="text-primary hover:text-primary/80 font-medium hover:underline"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-muted-foreground text-sm">
+            By creating an account, you agree to our terms of service
+          </p>
+        </div>
       </div>
     </div>
   );

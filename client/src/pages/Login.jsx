@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useLogin from '../hooks/useLogin';
+import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,54 +14,86 @@ const Login = () => {
     e.preventDefault();
     await login(username, password);
   };
-
   return (
-    <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
-      <div className="md:w-full m-10 w-4/5 p-6 rounded-lg shadow-sm bg-secondary bg-clip-padding">
-        <h1 className="text-3xl font-semibold text-center text-gray-300">
-          Login
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username" className="label p-2">
-              <span className="text-base label-text">Username</span>
-            </label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Enter your username"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+    <div className='flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/10'>
+      <div className='w-full max-w-md space-y-6'>
+        {/* Logo/Header */}
+        <div className='text-center'>
+          <h1 className='text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent'>
+            Whisper
+          </h1>
+          <p className='text-muted-foreground text-base sm:text-lg'>
+            Welcome back to your conversations
+          </p>
+        </div>
+
+        {/* Login Form */}
+        <div className='bg-card/90 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-border/30 shadow-2xl'>
+          <h2 className='text-2xl sm:text-3xl font-semibold text-center text-card-foreground mb-6 sm:mb-8'>
+            Sign In
+          </h2>
+
+          <form onSubmit={handleSubmit} className='space-y-4 sm:space-y-6'>
+            <div>
+              <label
+                htmlFor='username'
+                className='block text-sm font-medium text-foreground mb-1 sm:mb-2'
+              >
+                Username
+              </label>
+              <Input
+                id='username'
+                type='text'
+                placeholder='Enter your username'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor='password'
+                className='block text-sm font-medium text-foreground mb-1 sm:mb-2'
+              >
+                Password
+              </label>
+              <Input
+                id='password'
+                type='password'
+                placeholder='Enter your password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>{' '}
+            <Button
+              type='submit'
+              disabled={loading}
+              className='w-full py-2 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200'
+            >
+              {loading ? (
+                <div className='flex items-center justify-center gap-2'>
+                  <div className='animate-spin rounded-full h-4 w-4 border-2 border-primary-foreground border-t-transparent'></div>
+                  <span>Signing in...</span>
+                </div>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+          </form>
+
+          <div className='mt-6 sm:mt-8 text-center'>
+            <p className='text-muted-foreground text-sm sm:text-base'>
+              Don't have an account?{' '}
+              <Link
+                to='/register'
+                className='text-primary hover:text-primary/80 font-medium hover:underline'
+              >
+                Sign up now
+              </Link>
+            </p>
           </div>
-          <div>
-            <label htmlFor="password" className="label p-2">
-              <span className="text-base label-text">Password</span>
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              className="input w-full input-bordered h-10 bg-primary"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <Link
-            to="/register"
-            className="text-sm hover:text-message mt-2 inline-block"
-          >
-            {"Don't"} have an account ? Register Now
-          </Link>
-          <button type="submit" className="btn btn-block btn-primary mt-3">
-            {loading ? (
-              <span className="loading loading-spinner"></span>
-            ) : (
-              'Login'
-            )}
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );
