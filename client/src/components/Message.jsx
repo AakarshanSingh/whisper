@@ -107,20 +107,12 @@ const Message = ({ message }) => {
               : 'left-0 border-r-8 border-r-gray-700 border-b-8 border-b-transparent transform -translate-x-1'
           }`} />
         </div>
-        
-        <div className={`chat-footer mt-1 flex items-center gap-2 transition-opacity duration-200 ${
+          <div className={`chat-footer mt-1 flex items-center gap-2 transition-opacity duration-200 ${
           isHovered ? 'opacity-100' : 'opacity-60'
         }`}>
           <time className="text-xs text-gray-400 font-medium">
             {formattedTime}
           </time>
-          {fromMe && (
-            <div className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-          )}
         </div>
       </div>
     </div>

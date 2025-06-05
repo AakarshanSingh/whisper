@@ -11,7 +11,7 @@ const useGetConversations = () => {
       setLoading(true);
       try {
         const token = JSON.parse(localStorage.getItem('whisper')).token;
-        const res = await fetch(`${SERVER_URL}/api/users`, {
+        const res = await fetch(`${SERVER_URL}/api/users/conversations`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

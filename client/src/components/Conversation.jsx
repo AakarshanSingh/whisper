@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useSocketContext } from '../context/SocketContext';
 import useConversation from '../zustand/useConversation';
 import { getDefaultAvatarUrl } from '../utils/messageDebug';
 import { useState } from 'react';
@@ -9,8 +8,6 @@ const Conversation = ({ conversation, lastIndex }) => {
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const isSelected = selectedConversation?._id === conversation._id;
-  const { onlineUsers } = useSocketContext();
-  const isOnline = onlineUsers.includes(conversation._id);
 
   const handleImageError = () => {
     setImageError(true);
@@ -20,7 +17,6 @@ const Conversation = ({ conversation, lastIndex }) => {
   const avatarUrl = imageError || !conversation.profilePic 
     ? getDefaultAvatarUrl(conversation.fullName) 
     : conversation.profilePic;
-
   return (
     <>
       <div
@@ -33,12 +29,7 @@ const Conversation = ({ conversation, lastIndex }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Online indicator pulse effect */}
-        {isOnline && (
-          <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-green-500 rounded-full animate-pulse" />
-        )}
-        
-        <div className={`avatar ${isOnline ? 'online' : ''} relative`}>
+        <div className="avatar relative">
           <div className={`w-14 h-14 rounded-full transition-all duration-200 ${
             isSelected 
               ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-900' 
@@ -53,12 +44,8 @@ const Conversation = ({ conversation, lastIndex }) => {
               className="w-full h-full object-cover rounded-full bg-gray-700"
             />
           </div>
-          {isOnline && (
-            <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-900 animate-pulse" />
-          )}
         </div>
-        
-        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex flex-col flex-1 min-w-0">
           <div className="flex justify-between items-center mb-1">
             <p className={`font-semibold text-base truncate transition-colors duration-200 ${
               isSelected ? 'text-blue-400' : 'text-gray-100'
@@ -66,14 +53,9 @@ const Conversation = ({ conversation, lastIndex }) => {
               {conversation.fullName}
             </p>
             
-            <div className="flex items-center gap-2">
-              {isOnline && (
-                <span className="text-xs text-green-400 font-medium">online</span>
-              )}
-              <span className="text-xs text-gray-500">
-                {conversation.lastMessageTime || ''}
-              </span>
-            </div>
+            <span className="text-xs text-gray-500">
+              {conversation.lastMessageTime || ''}
+            </span>
           </div>
           
           <p className={`text-sm truncate transition-colors duration-200 ${

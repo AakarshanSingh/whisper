@@ -15,6 +15,8 @@ const Messages = () => {
   
   // Ensure messages is always an array before rendering
   const safeMessages = ensureMessagesArray(messages);
+  
+  console.log('Messages component render - loading:', loading, 'messages count:', safeMessages.length);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });

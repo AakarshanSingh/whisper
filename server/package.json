@@ -2,9 +2,9 @@
   "name": "whisper",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+  "main": "index.js",  "scripts": {
+    "test": "node test/createUsers.js",
+    "migrate": "node test/migrateConversations.js",
     "server": "node server",
     "dev": "nodemon server"
   },

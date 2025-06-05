@@ -12,6 +12,7 @@ const messageSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    // Old schema fields (keep for backward compatibility)
     message: {
       type: String,
     },
@@ -20,6 +21,23 @@ const messageSchema = new mongoose.Schema(
       default: false,
     },
     imgUrl: {
+      type: String,
+      default: '',
+    },
+    // New schema fields (for migration)
+    conversationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Conversation',
+    },
+    messageType: {
+      type: String,
+      enum: ['text', 'image'],
+      default: 'text',
+    },
+    textContent: {
+      type: String,
+    },
+    imageUrl: {
       type: String,
       default: '',
     },

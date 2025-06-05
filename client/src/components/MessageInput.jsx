@@ -1,28 +1,17 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { IoMdSend } from 'react-icons/io';
 import useSendMessage from '../hooks/useSendMessage';
-import { BsFillImageFill, BsEmojiSmile } from 'react-icons/bs';
+import { BsFillImageFill } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
-import { RiAttachment2 } from 'react-icons/ri';
 import usePreviewImage from '../hooks/usePreviewImage';
 import { toast } from 'react-toastify';
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const { loading, sendMessage } = useSendMessage();
   const imageRef = useRef(null);
   const inputRef = useRef(null);
   let { handleImageChange, imgUrl, setImgUrl } = usePreviewImage();
-
-  // Animation for typing indicator
-  useEffect(() => {
-    const typingTimeout = setTimeout(() => {
-      setIsTyping(false);
-    }, 1000);
-
-    return () => clearTimeout(typingTimeout);
-  }, [message]);
   const handleSendImage = async (e) => {
     e.preventDefault();
     if (!imgUrl) {
@@ -52,12 +41,8 @@ const MessageInput = () => {
       toast.error('Failed to send message');
     }
   };
-
   const handleInputChange = (e) => {
     setMessage(e.target.value);
-    if (!isTyping) {
-      setIsTyping(true);
-    }
   };
 
   const handleKeyPress = (e) => {
@@ -107,8 +92,7 @@ const MessageInput = () => {
       )}
 
       {/* Message Input Bar */}
-      <div className='flex items-end gap-3 p-4'>
-        {/* Action Buttons */}
+      <div className='flex items-end gap-3 p-4'>        {/* Action Buttons */}
         <div className='flex items-center gap-1 mb-2'>
           <button
             type='button'
@@ -119,26 +103,6 @@ const MessageInput = () => {
             <BsFillImageFill
               size={20}
               className='text-gray-400 group-hover:text-blue-400 transition-colors duration-200'
-            />
-          </button>
-          <button
-            type='button'
-            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
-            title="Emoji"
-          >
-            <BsEmojiSmile
-              size={20}
-              className='text-gray-400 group-hover:text-yellow-400 transition-colors duration-200'
-            />
-          </button>
-          <button
-            type='button'
-            className='p-3 rounded-full hover:bg-gray-700/50 transition-all duration-200 hover:scale-110 group'
-            title="Attach File"
-          >
-            <RiAttachment2
-              size={20}
-              className='text-gray-400 group-hover:text-green-400 transition-colors duration-200'
             />
           </button>
           <input
@@ -153,8 +117,7 @@ const MessageInput = () => {
         {/* Message Input Form */}
         <form className='flex-1 flex items-end' onSubmit={handleSubmit}>
           <div className='flex-1 relative'>
-            <div className='relative bg-gray-800/70 rounded-3xl border border-gray-600/50 shadow-lg hover:border-gray-500/50 transition-all duration-200 focus-within:border-blue-500/50 focus-within:shadow-blue-500/10 focus-within:shadow-xl backdrop-blur-sm'>
-              <textarea
+            <div className='relative bg-gray-800/70 rounded-3xl border border-gray-600/50 shadow-lg hover:border-gray-500/50 transition-all duration-200 focus-within:border-blue-500/50 focus-within:shadow-blue-500/10 focus-within:shadow-xl backdrop-blur-sm'>              <textarea
                 ref={inputRef}
                 placeholder='Type a message...'
                 className='w-full py-4 px-6 bg-transparent text-gray-100 rounded-3xl focus:outline-none resize-none max-h-32 min-h-[56px] placeholder-gray-400 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent'
@@ -172,12 +135,6 @@ const MessageInput = () => {
                   e.target.style.height = Math.min(e.target.scrollHeight, 128) + 'px';
                 }}
               />
-              {/* Typing indicator */}
-              {isTyping && message && (
-                <div className='absolute bottom-1 left-6 text-xs text-blue-400 opacity-75'>
-                  typing...
-                </div>
-              )}
             </div>
           </div>
           

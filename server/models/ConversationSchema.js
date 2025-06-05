@@ -1,15 +1,18 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
 const conversationSchema = new mongoose.Schema(
   {
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    messages: [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'Message', default: [] },
-    ],
+    lastMessage: { type: mongoose.Schema.Types.ObjectId, ref: 'Message' },
+    lastMessageAt: { type: Date, default: Date.now }
   },
   { timestamps: true }
 );
 
-const Conversation = mongoose.model('Conversion', conversationSchema);
+// Create indexes for better performance
+conversationSchema.index({ participants: 1 });
+conversationSchema.index({ lastMessageAt: -1 });
+
+const Conversation = mongoose.model('Conversation', conversationSchema);
 
 export default Conversation;
