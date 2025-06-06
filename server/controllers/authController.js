@@ -17,14 +17,11 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const profilePic =
-      'https://bestliness.com/wp-content/uploads/2023/07/cute-cat-dp-36.png';
-
     const newUser = new User({
       fullName,
       username,
       password: hashedPassword,
-      profilePic,
+      profilePic: '',
     });
 
     if (newUser) {

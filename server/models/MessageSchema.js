@@ -12,7 +12,6 @@ const messageSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    // Old schema fields (keep for backward compatibility)
     message: {
       type: String,
     },
@@ -24,7 +23,6 @@ const messageSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // New schema fields (for migration)
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Conversation',

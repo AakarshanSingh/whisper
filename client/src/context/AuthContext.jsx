@@ -12,10 +12,7 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('whisper')) || null
   );
-  
-  // Add debug logging
-  console.log('AuthContext initialized with user:', authUser?._id);
-  
+
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser }}>
       {children}

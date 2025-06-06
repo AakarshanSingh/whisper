@@ -5,7 +5,8 @@ import { User } from 'lucide-react';
 import { getDefaultAvatarUrl } from '../utils/messageDebug';
 
 const MessageContainer = () => {
-  const { selectedConversation } = useConversation();  const NoChatSelectedComp = () => {
+  const { selectedConversation } = useConversation();
+  const NoChatSelectedComp = () => {
     return (
       <div className='flex items-center justify-center w-full h-full bg-background/50'>
         <div className='bg-card/80 backdrop-blur-sm border border-border/30 px-8 py-12 rounded-2xl text-center flex flex-col items-center gap-6 max-w-md shadow-2xl'>
@@ -29,7 +30,9 @@ const MessageContainer = () => {
       {!selectedConversation ? (
         <NoChatSelectedComp />
       ) : (
-        <>          {/* Chat Header */}
+        <>
+          {' '}
+          {/* Chat Header */}
           <div className='flex-shrink-0 bg-card/90 backdrop-blur-md px-4 py-3 border-b border-border/30 flex items-center shadow-sm'>
             <div className='flex items-center gap-3 min-w-0 flex-1'>
               <div className='avatar transition-all duration-300 flex-shrink-0'>

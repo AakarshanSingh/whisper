@@ -6,7 +6,7 @@ import useConversation from '../zustand/useConversation';
 const useGetConversations = () => {
   const [loading, setLoading] = useState(false);
   const { conversations, setConversations } = useConversation();
-  
+
   useEffect(() => {
     const getConversations = async () => {
       setLoading(true);
@@ -33,7 +33,7 @@ const useGetConversations = () => {
     };
     getConversations();
   }, [setConversations]);
-  
+
   return { loading, conversations };
 };
 export default useGetConversations;

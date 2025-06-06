@@ -17,7 +17,6 @@ const Login = () => {
   return (
     <div className='flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/10'>
       <div className='w-full max-w-md space-y-6'>
-        {/* Logo/Header */}
         <div className='text-center'>
           <h1 className='text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent'>
             Whisper
@@ -27,7 +26,6 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Login Form */}
         <div className='bg-card/90 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-border/30 shadow-2xl'>
           <h2 className='text-2xl sm:text-3xl font-semibold text-center text-card-foreground mb-6 sm:mb-8'>
             Sign In
